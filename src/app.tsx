@@ -2,6 +2,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './app.css'
 import Count from './components/count'
+import Fetch from './components/fetch'
 
 function App() {
   return (
@@ -19,6 +20,12 @@ function App() {
         <Count defaultValue={40} />
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <div className="card">
+        <Fetch url="/greeting" />
+        <p>
+          Fetch Component
         </p>
       </div>
       <p className="read-the-docs">
