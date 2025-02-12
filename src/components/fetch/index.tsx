@@ -1,51 +1,47 @@
-import { useState, useReducer } from 'react'
-import axios from 'axios'
+import axios from 'axios';
+import { useReducer, useState } from 'react';
 
 const initialState = {
   error: null,
   greeting: null,
-}
-
+};
 
 const Fetch: React.FC<{ url: string }> = ({ url }) => {
-  const [{ error, greeting }, dispatch] = useReducer(
-    (state, action) => {
-      switch (action.type) {
-        case 'SUCCESS': {
-          return {
-            error: null,
-            greeting: action.greeting,
-          }
-        }
-        case 'ERROR': {
-          return {
-            error: action.error,
-            greeting: null,
-          }
-        }
-        default: {
-          return state
-        }
+  const [{ error, greeting }, dispatch] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'SUCCESS': {
+        return {
+          error: null,
+          greeting: action.greeting,
+        };
       }
-    },
-    initialState,
-  )
-  const [buttonClicked, setButtonClicked] = useState(false)
+      case 'ERROR': {
+        return {
+          error: action.error,
+          greeting: null,
+        };
+      }
+      default: {
+        return state;
+      }
+    }
+  }, initialState);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const fetchGreeting = async (url: string) =>
     axios
       .get(url)
-      .then(response => {
-        const { data } = response
-        const { greeting } = data
-        dispatch({ type: 'SUCCESS', greeting })
-        setButtonClicked(true)
+      .then((response) => {
+        const { data } = response;
+        const { greeting } = data;
+        dispatch({ type: 'SUCCESS', greeting });
+        setButtonClicked(true);
       })
-      .catch(error => {
-        dispatch({ type: 'ERROR', error })
-      })
+      .catch((error) => {
+        dispatch({ type: 'ERROR', error });
+      });
 
-  const buttonText = buttonClicked ? 'Ok' : 'Load Greeting'
+  const buttonText = buttonClicked ? 'Ok' : 'Load Greeting';
 
   return (
     <div>
@@ -55,7 +51,7 @@ const Fetch: React.FC<{ url: string }> = ({ url }) => {
       {greeting && <h1>{greeting}</h1>}
       {error && <p role="alert">Oops, failed to fetch!</p>}
     </div>
-  )
-}
+  );
+};
 
-export default Fetch
+export default Fetch;

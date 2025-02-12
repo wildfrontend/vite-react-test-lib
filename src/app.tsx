@@ -1,8 +1,8 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './app.css'
-import Count from './components/count'
-import Fetch from './components/fetch'
+import './app.css';
+import reactLogo from './assets/react.svg';
+import Count from './components/count';
+import Fetch from './components/fetch';
+import viteLogo from '/vite.svg';
 
 function App() {
   return (
@@ -24,15 +24,13 @@ function App() {
       </div>
       <div className="card">
         <Fetch url="/greeting" />
-        <p>
-          Fetch Component
-        </p>
+        <p>Fetch Component</p>
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
