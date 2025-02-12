@@ -11,6 +11,11 @@ const MainLayout: React.FC = () => {
               Basic
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/fetch" end>
+              Fetch
+            </NavLink>
+          </li>
         </ul>
       </div>
       <div className="m-auto min-h-screen w-[1024px] pt-8">
