@@ -45,7 +45,7 @@ const Fetch: React.FC<{ url: string }> = ({ url }) => {
 
   return (
     <div>
-      <button onClick={() => fetchGreeting(url)} disabled={buttonClicked}>
+      <button className='btn' onClick={() => fetchGreeting(url)} disabled={buttonClicked}>
         {buttonText}
       </button>
       {greeting && <h1>{greeting}</h1>}
