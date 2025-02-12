@@ -1,55 +1,41 @@
 import axios from 'axios';
-import React, { useReducer, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
-const initialState = {
-  error: null,
-  greeting: null,
-};
 
 const Fetch: React.FC<{ url: string }> = ({ url }) => {
-  const [{ error, greeting }, dispatch] = useReducer((state, action) => {
-    switch (action.type) {
-      case 'SUCCESS': {
-        return {
-          error: null,
-          greeting: action.greeting,
-        };
-      }
-      case 'ERROR': {
-        return {
-          error: action.error,
-          greeting: null,
-        };
-      }
-      default: {
-        return state;
-      }
+  const [payload, setPayload] = useState();
+  const [error, setError] = useState<any>();
+  const fetchProduct = useCallback(async () => {
+    try {
+      const res = await axios.get(url);
+      setPayload(res.data);
+    } catch (error) {
+      setError(error);
     }
-  }, initialState);
-  const [buttonClicked, setButtonClicked] = useState(false);
-
-  const fetchGreeting = async (url: string) =>
-    axios
-      .get(url)
-      .then((response) => {
-        const { data } = response;
-        const { greeting } = data;
-        dispatch({ type: 'SUCCESS', greeting });
-        setButtonClicked(true);
-      })
-      .catch((error) => {
-        dispatch({ type: 'ERROR', error });
-      });
-
-  const buttonText = buttonClicked ? 'Ok' : 'Load Greeting';
+  }, [url]);
 
   return (
-    <div>
-      <button onClick={() => fetchGreeting(url)} disabled={buttonClicked}>
-        {buttonText}
-      </button>
-      {greeting && <h1>{greeting}</h1>}
-      {error && <p role="alert">Oops, failed to fetch!</p>}
+    <div className="flex flex-col gap-8">
+      <div className="card bg-neutral w-full shadow-xl">
+        <div className="card-body" >
+          <h2 className="card-title">fetch url: {url}</h2>
+          {payload ? (
+            <pre data-testid="fetch-payload">{JSON.stringify(payload, null, 2)}</pre>
+          ) : (
+            <p>Click button to fetch data</p>
+          )}
+          <div className="card-actions justify-end">
+            <button className="btn btn-primary" disabled={!!payload} onClick={fetchProduct}>
+              Fetch data
+            </button>
+          </div>
+        </div>
+      </div>
+      {error && (
+        <div role="alert" className="alert alert-error">
+          <span>Error:{JSON.stringify(error, null, 2)}</span>
+        </div>
+      )}
     </div>
   );
 };

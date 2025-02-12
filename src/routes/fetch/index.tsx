@@ -3,7 +3,7 @@ import Fetch from '../../components/fetch';
 const FetchPage: React.FC = () => {
   return (
     <div className="flex justify-center">
-      <Fetch url="loading" />
+      <Fetch url="https://dummyjson.com/products/1" />
     </div>
   );
 };

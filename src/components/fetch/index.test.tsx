@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { HttpResponse, http } from 'msw';
 import { setupServer } from 'msw/node';
 import { afterAll, afterEach, beforeAll, expect, test } from 'vitest';
-import Fetch from '../fetch';
+import Fetch from '.';
 
 const server = setupServer(
   http.get('/greeting', () => {
@@ -18,11 +18,11 @@ afterAll(() => server.close());
 test('loads and displays greeting', async () => {
   render(<Fetch url="/greeting" />);
 
-  fireEvent.click(screen.getByText('Load Greeting'));
+  fireEvent.click(screen.getByText('Fetch data'));
 
-  await screen.findByRole('heading');
+  await screen.findByTestId("fetch-payload");
 
-  expect(screen.getByRole('heading')).toHaveTextContent('hello there');
+  expect(screen.getByTestId('fetch-payload')).toHaveTextContent('hello there');
   expect(screen.getByRole('button')).toBeDisabled();
 });
 
@@ -35,10 +35,10 @@ test('handles server error', async () => {
 
   render(<Fetch url="/greeting" />);
 
-  fireEvent.click(screen.getByText('Load Greeting'));
+  fireEvent.click(screen.getByText('Fetch data'));
 
   await screen.findByRole('alert');
 
-  expect(screen.getByRole('alert')).toHaveTextContent('Oops, failed to fetch!');
+  expect(screen.getByRole('alert')).toHaveTextContent('Error:');
   expect(screen.getByRole('button')).not.toBeDisabled();
 });
